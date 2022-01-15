@@ -37,7 +37,7 @@ const Diaries = () => {
                                         >
                                             <Typography variant={'h6'}>
                                                 <Grid container justifyContent={'space-between'}>
-                                                    <Grid item>
+                                                    <Grid item sx={{color:'#e1ecf4'}}>
                                                         Diary {item}
                                                     </Grid>
                                                     <Grid item sx={{
