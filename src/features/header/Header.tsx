@@ -32,9 +32,9 @@ function Header() {
         >
             <Grid item>
                 <Stack direction={'row'} spacing={1} sx={{padding: '7px 5px'}}>
-                    <TheButton icon={<DeleteOutlineOutlinedIcon/>}/>
-                    <TheButton icon={<EditOutlinedIcon/>}/>
                     <TheButton icon={<PushPinOutlinedIcon/>}/>
+                    <TheButton icon={<EditOutlinedIcon/>}/>
+                    <TheButton icon={<DeleteOutlineOutlinedIcon/>}/>
                 </Stack>
             </Grid>
         </Grid>
