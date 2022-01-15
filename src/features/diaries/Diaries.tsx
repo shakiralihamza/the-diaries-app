@@ -5,14 +5,14 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 const Diaries = () => {
     return (
         <>
-            <Typography ml={2} mt={1} sx={{color: '#98a3b0'}} variant={'body1'}>
+            <Typography ml={1} mt={1} sx={{color: '#98a3b0'}} fontSize={11}>
                 Diaries
             </Typography>
             <Grid
                 container
                 sx={{
-                    padding: '10px 0',
-                    height: 'calc(100vh - 50px)',
+                    padding: '7px 0',
+                    height: 'calc(100vh - 30px)',
                     width: '100%'
                 }}
                 justifyContent={'space-between'}
@@ -27,17 +27,16 @@ const Diaries = () => {
                                     <Grid item xs={12}>
                                         <Box
                                             sx={{
-                                                // height: '40px',
                                                 width: '100%',
-                                                padding: '5px 24px',
+                                                padding: '2px 24px',
                                                 ...(item === 2 && {backgroundImage: 'linear-gradient(to right, #63798e, #667687)'}),
                                                 ...(item === 5 && {backgroundImage: 'linear-gradient(to right, #3a80fd, #397cfc)'}),
                                                 // backgroundColor: '#397cfc'
                                             }}
                                         >
-                                            <Typography variant={'h6'}>
+                                            <Typography fontSize={14} fontWeight={500}>
                                                 <Grid container justifyContent={'space-between'}>
-                                                    <Grid item sx={{color:'#e1ecf4'}}>
+                                                    <Grid item sx={{color:'#f7fafc'}}>
                                                         Diary {item}
                                                     </Grid>
                                                     <Grid item sx={{
