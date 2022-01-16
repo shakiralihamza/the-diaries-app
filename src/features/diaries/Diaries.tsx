@@ -24,7 +24,6 @@ const Diaries = () => {
                         Diaries
                     </Typography>
                 </Grid>
-                {/*<Grid item xs mt={1} sx={{overflowY: 'auto',scrollbarWidth: 'thin'}}>*/}
                 <Grid item xs mt={1} mb={2}>
                     <Scrollbars>
                         <Grid container>
