@@ -1,18 +1,18 @@
 import React from 'react';
 import {Box, Grid, Stack, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Scrollbars } from 'react-custom-scrollbars';
+import DiariesListItem from "./DiariesListItem";
 
 const Diaries = () => {
     return (
         <>
-            <Typography ml={1} mt={1} sx={{color: '#98a3b0'}} fontSize={11}>
-                Diaries
-            </Typography>
+
             <Grid
                 container
                 sx={{
                     padding: '7px 0',
-                    height: 'calc(100vh - 30px)',
+                    height: 'calc(100vh - 37px)',
                     width: '100%'
                 }}
                 justifyContent={'space-between'}
@@ -20,48 +20,30 @@ const Diaries = () => {
                 direction={'column'}
             >
                 <Grid item>
-                    <Grid container>
-                        {
-                            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                                <>
-                                    <Grid item xs={12}>
-                                        <Box
-                                            sx={{
-                                                width: '100%',
-                                                padding: '2px 24px',
-                                                ...(item === 2 && {backgroundImage: 'linear-gradient(to right, #63798e, #667687)'}),
-                                                ...(item === 5 && {backgroundImage: 'linear-gradient(to right, #3a80fd, #397cfc)'}),
-                                                // backgroundColor: '#397cfc'
-                                            }}
-                                        >
-                                            <Typography fontSize={14} fontWeight={500}>
-                                                <Grid container justifyContent={'space-between'}>
-                                                    <Grid item sx={{color:'#f7fafc'}}>
-                                                        Diary {item}
-                                                    </Grid>
-                                                    <Grid item sx={{
-                                                        ...(item !== 5 && {color: '#607388'}),
-                                                        ...(item === 5 && {color: '#fff'}),
-                                                        ...(item === 2 && {color: '#899db3'}),
-                                                    }}>
-                                                        26
-                                                    </Grid>
-                                                </Grid>
-                                            </Typography>
-                                        </Box>
-                                    </Grid>
-                                </>
-                            ))
-                        }
-                    </Grid>
-
+                    <Typography ml={1} sx={{color: '#98a3b0'}} fontSize={11}>
+                        Diaries
+                    </Typography>
+                </Grid>
+                {/*<Grid item xs mt={1} sx={{overflowY: 'auto',scrollbarWidth: 'thin'}}>*/}
+                <Grid item xs mt={1} mb={2}>
+                    <Scrollbars>
+                        <Grid container>
+                            {
+                                [1, 2, 3, 4, 5, 4,4,7, 8, 4, 3, 1, 1, 1, 1, 1,1, 1, 1, 1,].map((item) => (
+                                    <>
+                                        <DiariesListItem item={item} selected={item === 2}/>
+                                    </>
+                                ))
+                            }
+                        </Grid>
+                    </Scrollbars>
                 </Grid>
 
                 <Grid item>
                     <Typography sx={{color: '#98a3b0'}} ml={2}>
                         <Stack direction={'row'}>
-                            <AddCircleIcon/>&nbsp;
-                            <Box sx={{fontWeight: '400'}}>New Diary</Box>
+                            <AddCircleIcon sx={{fontSize: 18}}/>&nbsp;
+                            <Box sx={{fontWeight: '400', fontSize: '13px'}}>New Diary</Box>
                         </Stack>
                     </Typography>
                 </Grid>
