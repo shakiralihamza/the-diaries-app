@@ -41,7 +41,8 @@ const EntriesListItem: FC<ListItemProps> = ({item, index, arrayLength}) => (
                                 textOverflow: 'ellipsis',
                                 overflow: 'hidden',
                                 whiteSpace: 'nowrap',
-                                maxWidth: '255px'
+                                maxWidth: '255px',
+                                marginRight:'15px'
                             }}
                         >
                             I'll be in your neighborhood doing errands this sefnsieufb
