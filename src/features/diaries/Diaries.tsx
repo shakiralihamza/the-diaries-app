@@ -1,13 +1,12 @@
 import React from 'react';
 import {Box, Grid, Stack, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Scrollbars } from 'react-custom-scrollbars';
+import {Scrollbars} from 'react-custom-scrollbars';
 import DiariesListItem from "./DiariesListItem";
 
 const Diaries = () => {
     return (
         <>
-
             <Grid
                 container
                 sx={{
@@ -28,7 +27,7 @@ const Diaries = () => {
                     <Scrollbars>
                         <Grid container>
                             {
-                                [1, 2, 3, 4, 5, 4,4,7, 8, 4, 3, 1, 1, 1, 1, 1,1, 1, 1, 1,].map((item) => (
+                                [1, 2, 3, 4, 5, 4, 4, 7, 8, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,].map((item) => (
                                     <>
                                         <DiariesListItem item={item} selected={item === 2}/>
                                     </>
@@ -40,7 +39,7 @@ const Diaries = () => {
 
                 <Grid item>
                     <Typography sx={{color: '#98a3b0'}} ml={2}>
-                        <Stack direction={'row'}>
+                        <Stack direction={'row'} sx={{'&: hover': {cursor: 'pointer'}}}>
                             <AddCircleIcon sx={{fontSize: 18}}/>&nbsp;
                             <Box sx={{fontWeight: '400', fontSize: '13px'}}>New Diary</Box>
                         </Stack>
