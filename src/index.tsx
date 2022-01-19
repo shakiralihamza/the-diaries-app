@@ -6,12 +6,17 @@ import {store} from './app/store';
 import {Provider} from 'react-redux';
 import {createTheme, CssBaseline, Theme, ThemeProvider} from "@mui/material";
 import {BrowserRouter} from "react-router-dom";
+import { setupServer } from './services/mirage/server';
 
 const theme: Theme = createTheme({
     palette: {
         mode: 'dark',
     },
 });
+
+if (process.env.NODE_ENV === 'development') {
+    setupServer();
+}
 
 ReactDOM.render(
     <React.StrictMode>
