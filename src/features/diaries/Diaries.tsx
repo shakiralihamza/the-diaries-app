@@ -3,8 +3,14 @@ import {Box, Grid, Stack, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {Scrollbars} from 'react-custom-scrollbars';
 import DiariesListItem from "./DiariesListItem";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {openMenu} from "./addDiarySlice";
+import AddDiary from "./AddDiary";
+
 
 const Diaries = () => {
+    const dispatch = useAppDispatch();
+    const open = useAppSelector((state) => state.addDiary.menuOpen);
     return (
         <>
             <Grid
@@ -33,13 +39,18 @@ const Diaries = () => {
                                     </>
                                 ))
                             }
+                            {open && <AddDiary/>}
                         </Grid>
                     </Scrollbars>
                 </Grid>
 
                 <Grid item>
                     <Typography sx={{color: '#98a3b0'}} ml={2}>
-                        <Stack direction={'row'} sx={{'&: hover': {cursor: 'pointer'}}}>
+                        <Stack
+                            direction={'row'}
+                            sx={{'&: hover': {cursor: 'pointer'}}}
+                            onClick={() => dispatch(openMenu())}
+                        >
                             <AddCircleIcon sx={{fontSize: 18}}/>&nbsp;
                             <Box sx={{fontWeight: '400', fontSize: '13px'}}>New Diary</Box>
                         </Stack>

@@ -3,13 +3,15 @@ import userSlice from "../features/auth/userSlice";
 import diariesSlice from "../features/diaries/diariesSlice";
 import entriesSlice from "../features/entries/entriesSlice";
 import authSlice from "../features/auth/authSlice";
+import addDiarySlice from "../features/diaries/addDiarySlice";
 
 export const store = configureStore({
     reducer: {
         auth: authSlice,
         user: userSlice,
         diaries: diariesSlice,
-        entries: entriesSlice
+        entries: entriesSlice,
+        addDiary: addDiarySlice
     },
 });
 
