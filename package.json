@@ -50,5 +50,8 @@
   },
   "devDependencies": {
     "miragejs": "^0.1.43"
+  },
+  "browser": {
+    "crypto": false
   }
 }

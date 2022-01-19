@@ -31,7 +31,7 @@ function Entries() {
                         }}>
                             <Typography ml={1} sx={{color: '#a4a1a4', padding: '3px 0'}} fontSize={14}>
                                 <Stack direction={'row'}>
-                                    <PushPinIcon sx={{fontSize: '10px', marginTop: '3px'}}/>
+                                    <PushPinIcon sx={{fontSize: '10px', marginTop: '2px'}}/>
                                     <Box sx={{fontWeight: '400', fontSize: 10, marginLeft: '2px'}}>Pinned</Box>
                                 </Stack>
                             </Typography>

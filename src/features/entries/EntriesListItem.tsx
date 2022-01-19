@@ -56,7 +56,7 @@ const EntriesListItem: FC<ListItemProps> = ({item, index, arrayLength}) => (
             <Divider variant="inset" sx={{marginLeft: '37px'}} component="li"/>
         }
         {
-            item === 2 && <Divider sx={{border: '2px solid', borderColor: '#5e5b5e'}} component="li"/>
+            item === 3 && <Divider sx={{border: '2px solid', borderColor: '#5e5b5e'}} component="li"/>
         }
     </>
 );

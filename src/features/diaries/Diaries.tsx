@@ -27,7 +27,7 @@ const Diaries = () => {
                     <Scrollbars>
                         <Grid container>
                             {
-                                [1, 2, 3, 4, 5, 4, 4, 7, 8, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,].map((item) => (
+                                [1, 2, 3, 4, 5, 4].map((item) => (
                                     <>
                                         <DiariesListItem item={item} selected={item === 2}/>
                                     </>
