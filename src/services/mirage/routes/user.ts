@@ -1,9 +1,8 @@
 import { Response, Request } from 'miragejs';
 import { handleErrors } from '../server';
 import { User } from '../../../interfaces/user.interface';
-import {randomBytes} from 'crypto';
 
-const generateToken = () => randomBytes(8).toString('hex');
+const generateToken = () => (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
 
 export interface AuthResponse {
   token: string;
