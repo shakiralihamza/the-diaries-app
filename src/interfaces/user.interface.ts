@@ -1,7 +1,7 @@
 export interface User {
-    id: string;
+    id?: string;
     username: string;
-    password: string;
-    email: string;
-    // diaryIds: string[] | null;
+    password?: string;
+    email?: string;
+    diaryIds?: string[] | null;
 }

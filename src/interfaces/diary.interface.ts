@@ -1,9 +1,9 @@
 export interface Diary {
-    id: string;
+    id?: string;
     title: string;
-    type: 'private' | 'public';
-    createdAt: string;
+    type?: 'private' | 'public';
+    createdAt?: string;
     updatedAt?: string;
-    userId: string;
+    userId?: string;
     // entryIds: string[] | null;
 }
