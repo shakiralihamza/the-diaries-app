@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -15,17 +14,19 @@ import http from "../../services/api";
 import {AuthResponse} from "../../services/mirage/routes/user";
 import {saveToken, setAuthState} from "./authSlice";
 import {setUser} from "./userSlice";
-
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function Auth() {
     const [isLogin, setIsLogin] = useState(true);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useAppDispatch();
 
     const handleSubmit = () => {
+        setLoading(true);
         const path = isLogin ? '/auth/login' : '/auth/signup';
         const data: User = {username, password};
         http
@@ -40,6 +41,9 @@ function Auth() {
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(()=>{
+                setLoading(false)
             })
     };
 
@@ -61,6 +65,7 @@ function Auth() {
                 </Typography>
                 <Box sx={{mt: 1}}>
                     <TextField
+                        disabled={loading}
                         margin="normal"
                         required
                         fullWidth
@@ -71,6 +76,7 @@ function Auth() {
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <TextField
+                        disabled={loading}
                         margin="normal"
                         required
                         fullWidth
@@ -81,6 +87,7 @@ function Auth() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <TextField
+                        disabled={loading}
                         margin="normal"
                         required
                         fullWidth
@@ -90,15 +97,16 @@ function Auth() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <Button
+                    <LoadingButton
                         type="submit"
+                        loading={loading}
                         fullWidth
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                         onClick={handleSubmit}
                     >
                         {isLogin?'Sign In':'Sign Up'}
-                    </Button>
+                    </LoadingButton>
                     <Grid container>
                         <Grid item xs/>
                         <Grid item>
