@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Grid, Stack, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {Scrollbars} from 'react-custom-scrollbars';
@@ -6,11 +6,35 @@ import DiariesListItem from "./DiariesListItem";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {openMenu} from "./addDiarySlice";
 import AddDiary from "./AddDiary";
+import http from '../../services/api';
+import {Diary} from "../../interfaces/diary.interface";
+import dayjs from "dayjs";
+import {addDiary} from "./diariesSlice";
 
 
 const Diaries = () => {
     const dispatch = useAppDispatch();
     const open = useAppSelector((state) => state.addDiary.menuOpen);
+    const user = useAppSelector((state) => state.user);
+    const diaries = useAppSelector((state) => state.diaries);
+
+    useEffect(() => {
+        const fetchDiaries = async () => {
+            if (user) {
+                http.get<null, Diary[]>(`diaries/${user.id}`).then((data) => {
+                    if (data && data.length > 0) {
+                        const sortedByUpdatedAt = data.sort((a, b) => {
+                            return dayjs(b.updatedAt).unix() - dayjs(a.updatedAt).unix();
+                        });
+                        dispatch(addDiary(sortedByUpdatedAt));
+                    }
+                });
+            }
+        };
+
+        fetchDiaries();
+    }, [dispatch, user]);
+
     return (
         <>
             <Grid
@@ -33,9 +57,9 @@ const Diaries = () => {
                     <Scrollbars>
                         <Grid container>
                             {
-                                [1, 2, 3, 4, 5, 4].map((item) => (
+                                diaries.map((item: Diary) => (
                                     <>
-                                        <DiariesListItem item={item} selected={item === 2}/>
+                                        <DiariesListItem title={item.title} selected={false}/>
                                     </>
                                 ))
                             }
