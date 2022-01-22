@@ -4,6 +4,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 type TheButtonProps = {
     icon: JSX.Element,
@@ -14,7 +15,7 @@ type TheButtonProps = {
 type DefaultIconStyles = { fontSize: number };
 const defaultIconStyles: DefaultIconStyles = {fontSize: 18}
 
-const TheButton: FC<TheButtonProps> = ({icon, selected, tooltipText}) => (
+export const TheHeaderButton: FC<TheButtonProps> = ({icon, selected, tooltipText}) => (
     <Tooltip TransitionComponent={Zoom} title={tooltipText}>
         <IconButton
             disableRipple
@@ -50,14 +51,20 @@ function Header() {
             <Grid item sm={3} md={2}/>
             <Grid item sm={4} md={3}>
                 <Stack direction={'row'} spacing={1} sx={{padding: '0 5px'}}>
-                    <TheButton icon={<PostAddIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'New Entry'}/>
+                    <TheHeaderButton icon={<PostAddIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'New Entry'}/>
                 </Stack>
             </Grid>
             <Grid item xs>
                 <Stack direction={'row'} spacing={1} sx={{padding: '0 5px'}}>
-                    <TheButton icon={<PushPinOutlinedIcon sx={defaultIconStyles}/>} selected={true} tooltipText={'Pin'}/>
-                    <TheButton icon={<EditOutlinedIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'Edit'}/>
-                    <TheButton icon={<DeleteOutlineOutlinedIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'Delete'}/>
+                    <TheHeaderButton icon={<PushPinOutlinedIcon sx={defaultIconStyles}/>} selected={true} tooltipText={'Pin'}/>
+                    <TheHeaderButton icon={<EditOutlinedIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'Edit'}/>
+                    <TheHeaderButton icon={<DeleteOutlineOutlinedIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'Delete'}/>
+                </Stack>
+
+            </Grid>
+            <Grid item>
+                <Stack direction={'row'} spacing={1} sx={{padding: '0 5px'}}>
+                    <TheHeaderButton icon={<LogoutIcon sx={defaultIconStyles}/>} selected={false} tooltipText={'Sign Out'}/>
                 </Stack>
             </Grid>
         </Grid>
