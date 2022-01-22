@@ -57,6 +57,7 @@ const AddDiary = () => {
             title,
             type,
             userId,
+            entries: 0
         });
         if (diary) {
             dispatch(addDiary([diary] as Diary[]));
@@ -64,6 +65,11 @@ const AddDiary = () => {
             // dispatch(setUser(_user));
             setLoading(false);
             dispatch(closeMenu());
+        }
+    }
+    const handleKeyPress = (e: any) => {
+        if (e.key === 'Enter') {
+            handleAddDiary();
         }
     }
     return (
@@ -79,14 +85,15 @@ const AddDiary = () => {
                     border: '1px solid',
                     borderColor: '#a5c4e1',
                     borderRadius: 1,
-                    backgroundColor:loading?'#000000':'#2b2b2b',
-                    opacity: loading? 0.2:1
+                    backgroundColor: loading ? '#000000' : '#2b2b2b',
+                    opacity: loading ? 0.2 : 1
                 }}
             >
                 <AddDiaryInput
                     autoFocus
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    onKeyPress={handleKeyPress}
                 />
                 <ToggleButtonGroup
                     value={type}

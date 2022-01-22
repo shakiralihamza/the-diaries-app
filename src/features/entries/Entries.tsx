@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Grid, Stack, Typography} from "@mui/material";
 import PushPinIcon from '@mui/icons-material/PushPin';
 import List from '@mui/material/List';
 import EntriesListItem from "./EntriesListItem";
 import Scrollbars from "react-custom-scrollbars";
+import {useParams} from "react-router-dom";
+import {useAppDispatch} from "../../app/hooks";
+import {setCurrentDiary} from "../diaries/currentDiarySlice";
 
 function Entries() {
+    const {diaryId} = useParams();
+    const dispatch = useAppDispatch();
+
+    useEffect(()=>{
+        dispatch(setCurrentDiary(diaryId))
+    },[diaryId, dispatch]);
     return (
         <>
 

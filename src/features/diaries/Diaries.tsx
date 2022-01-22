@@ -17,9 +17,10 @@ const Diaries = () => {
     const open = useAppSelector((state) => state.addDiary.menuOpen);
     const user = useAppSelector((state) => state.user);
     const diaries = useAppSelector((state) => state.diaries);
+    const currentDiary = useAppSelector(state => state.currentDiary.currentDiary);
 
     useEffect(() => {
-        const fetchDiaries = async () => {
+        const fetchDiaries = () => {
             if (user) {
                 http.get<null, Diary[]>(`diaries/${user.id}`).then((data) => {
                     if (data && data.length > 0) {
@@ -50,7 +51,7 @@ const Diaries = () => {
             >
                 <Grid item>
                     <Typography ml={1} sx={{color: '#98a3b0'}} fontSize={11}>
-                        Diaries
+                        { diaries.length === 0 ? 'No diaries added yet': 'Diaries'}
                     </Typography>
                 </Grid>
                 <Grid item xs mt={1} mb={2}>
@@ -59,7 +60,12 @@ const Diaries = () => {
                             {
                                 diaries.map((item: Diary) => (
                                     <>
-                                        <DiariesListItem title={item.title} selected={false}/>
+                                        <DiariesListItem
+                                            id={item.id}
+                                            title={item.title}
+                                            entries={item.entries}
+                                            selected={currentDiary === item.id}
+                                        />
                                     </>
                                 ))
                             }

@@ -5,5 +5,6 @@ export interface Diary {
     createdAt?: string;
     updatedAt?: string;
     userId?: string;
+    entries?: number;
     // entryIds: string[] | null;
 }
