@@ -35,7 +35,7 @@ export default function AddEntry() {
             )
             .then((data) => {
                 if (data != null) {
-                    const {diary, entry: _entry} = data;
+                    // const {diary, entry: _entry} = data;
                     dispatch(closeEntryMenu());
                     dispatch(setAdded());
                 }
