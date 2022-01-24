@@ -4,17 +4,42 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import List from '@mui/material/List';
 import EntriesListItem from "./EntriesListItem";
 import Scrollbars from "react-custom-scrollbars";
-import {useParams} from "react-router-dom";
-import {useAppDispatch} from "../../app/hooks";
-import {setCurrentDiary} from "../diaries/currentDiarySlice";
+import {useNavigate, useParams} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import AddEntry from "./AddEntry";
+import http from "../../services/api";
+import dayjs from "dayjs";
+import {Entry} from "../../interfaces/entry.interface";
+import {setEntries} from "./entriesSlice";
 
 function Entries() {
     const {diaryId} = useParams();
     const dispatch = useAppDispatch();
+    const entries = useAppSelector(state => state.entries)
+    const open = useAppSelector(state => state.addEntry.menuOpen)
+    const navigate = useNavigate();
+    const currentDiary = useAppSelector(state => state.currentDiary.currentDiary)
+    const isAdding = useAppSelector(state => state.addEntry.isAdding)
 
-    useEffect(()=>{
-        dispatch(setCurrentDiary(diaryId))
-    },[diaryId, dispatch]);
+    useEffect(() => {
+        if (currentDiary === undefined) {
+            navigate('/')
+        } else {
+            // dispatch(setCurrentDiary(diaryId))
+
+            http.get<null, { entries: Entry[] }>(`/diaries/entries/${diaryId}`)
+                .then(({entries: _entries}) => {
+                    // alert(JSON.stringify(_entries))
+                    if (_entries) {
+                        const sortByLastUpdated = _entries.sort((a, b) => {
+                            return dayjs(b.updatedAt).unix() - dayjs(a.updatedAt).unix();
+                        });
+                        dispatch(setEntries(sortByLastUpdated));
+                    }
+                });
+        }
+
+    }, [currentDiary, diaryId, dispatch, navigate, open]);
     return (
         <>
 
@@ -42,15 +67,32 @@ function Entries() {
                                 <Stack direction={'row'}>
                                     <PushPinIcon sx={{fontSize: '10px', marginTop: '2px'}}/>
                                     <Box sx={{fontWeight: '400', fontSize: 10, marginLeft: '2px'}}>Pinned</Box>
+                                    <Box sx={{fontWeight: '400', fontSize: 10, marginLeft: '2px'}}>
+                                        {isAdding && 'Loading'}
+                                    </Box>
                                 </Stack>
                             </Typography>
                         </Box>
                         <Grid container>
                             <List sx={{width: '100%', marginTop: '-10px'}}>
-                                {
+                                {/* {
                                     [1, 2, 3, 6, 6, 6, 6, 6, 4, 5, 6].map((item, index, array) => (
                                         <Box component={'span'} key={item} sx={{'&:hover': {cursor: 'default'}}}>
                                             <EntriesListItem item={item} heading={''} description={''} index={index} arrayLength={array.length}/>
+                                        </Box>
+                                    ))
+                                }*/}
+                                {
+                                    entries.map((entry, index, array) => (
+                                        <Box component={'span'} key={entry.id} sx={{'&:hover': {cursor: 'default'}}}>
+                                            <EntriesListItem
+                                                title={entry.title}
+                                                description={entry.description}
+                                                index={index}
+                                                arrayLength={array.length}
+                                                isPinned={entry.isPinned}
+
+                                            />
                                         </Box>
                                     ))
                                 }
@@ -59,6 +101,7 @@ function Entries() {
                     </Scrollbars>
                 </Grid>
             </Grid>
+            {open && <AddEntry/>}
         </>
     );
 }

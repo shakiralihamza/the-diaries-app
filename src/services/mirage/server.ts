@@ -31,8 +31,8 @@ export const setupServer = (env?: string): Server => {
 
     factories: {
       user: Factory.extend({
-        username: 'test',
-        password: 'password',
+        username: 'shakir',
+        password: 'shakir',
         email: 'test@email.com',
       }),
     },

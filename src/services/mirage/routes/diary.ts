@@ -5,10 +5,7 @@ import {Entry} from '../../../interfaces/entry.interface';
 import dayjs from 'dayjs';
 import {User} from '../../../interfaces/user.interface';
 
-export const create = (
-    schema: any,
-    req: Request
-): { user: User; diary: Diary } | Response => {
+export const create = (schema: any, req: Request): { user: User; diary: Diary } | Response => {
     try {
         const {title, type, entries, userId} = JSON.parse(req.requestBody) as Partial<Diary>;
         const exUser = schema.users.findBy({id: userId});
@@ -43,10 +40,12 @@ export const addEntry = (
         const {title, description} = JSON.parse(req.requestBody) as Partial<Entry>;
         const now = dayjs().format();
         const entry = diary.createEntry({
+            diaryID: req.params.id,
             title,
             description,
             createdAt: now,
             updatedAt: now,
+            isPinned: false
         });
         diary.update({
             ...diary.attrs,
@@ -76,6 +75,8 @@ export const getEntries = (
 ): { entries: Entry[] } | Response => {
     try {
         const diary = schema.diaries.find(req.params.id);
+        // const diary = schema.diaries;
+        // alert(JSON.stringify(diary.entry))
         return diary.entry;
     } catch (error) {
         return handleErrors(error, 'Failed to get Diary entries.');

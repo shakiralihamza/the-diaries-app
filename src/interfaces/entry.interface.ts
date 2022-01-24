@@ -1,9 +1,9 @@
 export interface Entry {
-    id: string
+    id?: string
     title: string
     description: string
-    createdAt: string
+    createdAt?: string
     updatedAt?: string
-    diaryId: string
+    diaryID?: string
     isPinned: boolean
 }

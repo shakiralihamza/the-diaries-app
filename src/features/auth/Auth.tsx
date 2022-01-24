@@ -35,6 +35,7 @@ function Auth() {
                 if (res) {
                     const {user, token} = res;
                     dispatch(saveToken(token));
+                    // alert(JSON.stringify(user))
                     dispatch(setUser(user));
                     dispatch(setAuthState(true));
                 }

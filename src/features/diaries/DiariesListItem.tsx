@@ -2,6 +2,8 @@ import React, {FC} from 'react';
 import {Box, Grid, Typography} from "@mui/material";
 import {Diary} from "../../interfaces/diary.interface";
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../app/hooks";
+import {setCurrentDiary} from "./currentDiarySlice";
 
 interface DiariesListItemProps extends Diary {
     selected: boolean
@@ -9,11 +11,15 @@ interface DiariesListItemProps extends Diary {
 
 const DiariesListItem: FC<DiariesListItemProps> = ({title, selected, entries, id}) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     return (
         <Grid
             item xs={12}
             sx={{'&:hover': {cursor: 'default'}}}
-            onClick={() => navigate(`diary/${id}`)}
+            onClick={() => {
+                navigate(`diary/${id}`)
+                dispatch(setCurrentDiary(id))
+            }}
         >
             <Box
                 tabIndex={0}

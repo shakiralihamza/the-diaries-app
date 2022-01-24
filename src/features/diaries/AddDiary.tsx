@@ -16,6 +16,8 @@ import PublicIcon from '@mui/icons-material/Public';
 import http from "../../services/api";
 import {Diary} from "../../interfaces/diary.interface";
 import {closeMenu} from "./addDiarySlice";
+import {setCurrentDiary} from "./currentDiarySlice";
+import {useNavigate} from "react-router-dom";
 
 const AddDiaryInput = styled(InputBase)(() => ({
     '& .MuiInputBase-input': {
@@ -50,7 +52,7 @@ const AddDiary = () => {
     const dispatch = useAppDispatch();
     const userId = useAppSelector(state => state.user?.id)
     const [loading, setLoading] = useState(false);
-
+    const navigate = useNavigate();
     const handleAddDiary = async () => {
         setLoading(true)
         const {diary} = await http.post<Partial<Diary>, { diary: Diary }>('/diaries/', {
@@ -61,10 +63,12 @@ const AddDiary = () => {
         });
         if (diary) {
             dispatch(addDiary([diary] as Diary[]));
-            dispatch(addDiary([diary] as Diary[]));
+            // dispatch(addDiary([diary] as Diary[]));
             // dispatch(setUser(_user));
             setLoading(false);
             dispatch(closeMenu());
+            dispatch(setCurrentDiary(diary.id))
+            navigate(`/diary/${diary.id}`)
         }
     }
     const handleKeyPress = (e: any) => {

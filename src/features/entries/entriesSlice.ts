@@ -7,6 +7,7 @@ const entries = createSlice({
     reducers: {
         setEntries(state, { payload }: PayloadAction<Entry[] | null>) {
             return (state = payload != null ? payload : []);
+
         },
         updateEntry(state, { payload }: PayloadAction<Entry>) {
             const { id } = payload;
