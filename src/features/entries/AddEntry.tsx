@@ -40,26 +40,7 @@ export default function AddEntry() {
                     dispatch(setAdded());
                 }
             });
-        /*const {diary} = await http.post<Partial<Diary>, { diary: Diary }>('/diaries/', {
-            title,
-            type,
-            userId,
-            entries: 0
-        });
-        if (diary) {
-            dispatch(addDiary([diary] as Diary[]));
-            dispatch(addDiary([diary] as Diary[]));
-            // dispatch(setUser(_user));
-            setLoading(false);
-            dispatch(closeMenu());
-        }*/
     }
-    const handleKeyPress = (e: any) => {
-        if (e.key === 'Enter') {
-            handleAddEntry();
-        }
-    }
-
     return (
         <div>
             <Dialog open={true} onClose={handleClose}>
@@ -75,7 +56,6 @@ export default function AddEntry() {
                         fullWidth
                         required
                         variant="filled"
-                        onKeyPress={handleKeyPress}
                     />
                     <TextField
                         onChange={(e) => setDescription(e.target.value)}
