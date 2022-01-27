@@ -97,7 +97,21 @@ export const updateDiary = (schema: any, req: Request): Diary | Response => {
         return handleErrors(error, 'Failed to update Diary.');
     }
 };
-
+export const updateEntryPin = (schema: any, req: Request): Entry | Response => {
+    try {
+        const entry = schema.entries.find(req.params.id);
+        const data = JSON.parse(req.requestBody) as Partial<Entry>;
+        // const now = dayjs().format();
+        entry.update({
+            ...data,
+            // updatedAt: now,
+            isPinned: !entry.isPinned
+        });
+        return entry.attrs as Entry;
+    } catch (error) {
+        return handleErrors(error, 'Failed to update entry.');
+    }
+};
 export const updateEntry = (schema: any, req: Request): Entry | Response => {
     try {
         const entry = schema.entries.find(req.params.id);

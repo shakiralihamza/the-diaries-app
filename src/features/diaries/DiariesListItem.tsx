@@ -4,6 +4,8 @@ import {Diary} from "../../interfaces/diary.interface";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../app/hooks";
 import {setCurrentDiary} from "./currentDiarySlice";
+import {setViewEntry} from "../viewEntry/viewEntrySlice";
+import {setCurrentEntry} from "../entries/currentEntrySlice";
 
 interface DiariesListItemProps extends Diary {
     selected: boolean
@@ -19,6 +21,8 @@ const DiariesListItem: FC<DiariesListItemProps> = ({title, selected, entries, id
             onClick={() => {
                 navigate(`diary/${id}`)
                 dispatch(setCurrentDiary(id))
+                dispatch(setViewEntry({}))
+                dispatch(setCurrentEntry(undefined))
             }}
         >
             <Box

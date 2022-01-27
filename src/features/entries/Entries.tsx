@@ -19,26 +19,22 @@ function Entries() {
     const open = useAppSelector(state => state.addEntry.menuOpen)
     const navigate = useNavigate();
     const currentDiary = useAppSelector(state => state.currentDiary.currentDiary)
-    const isAdding = useAppSelector(state => state.addEntry.isAdding)
+    const pinned = entries.filter((entry) => entry.isPinned)
 
     useEffect(() => {
         if (currentDiary === undefined) {
             navigate('/')
         } else {
-            // dispatch(setCurrentDiary(diaryId))
-
             http.get<null, { entries: Entry[] }>(`/diaries/entries/${diaryId}`)
                 .then(({entries: _entries}) => {
-                    // alert(JSON.stringify(_entries))
                     if (_entries) {
                         const sortByLastUpdated = _entries.sort((a, b) => {
                             return dayjs(b.updatedAt).unix() - dayjs(a.updatedAt).unix();
                         });
                         dispatch(setEntries(sortByLastUpdated));
                     }
-                });
+                })
         }
-
     }, [currentDiary, diaryId, dispatch, navigate, open]);
     return (
         <>
@@ -61,40 +57,63 @@ function Entries() {
                             backgroundImage: 'linear-gradient(to right, #2d2a2d, #2c292c)',
                             color: '#2c292c',
                             borderBottom: '1px solid',
-                            borderColor: '#464348'
+                            borderColor: '#464348',
+                            ...(pinned.length === 0 && {display: 'none'})
                         }}>
-                            <Typography ml={1} sx={{color: '#a4a1a4', padding: '3px 0'}} fontSize={14}>
+
+                            < Typography ml={1} sx={{
+                                color: '#a4a1a4',
+                                padding: '3px 0',
+                            }} fontSize={14}>
                                 <Stack direction={'row'}>
                                     <PushPinIcon sx={{fontSize: '10px', marginTop: '2px'}}/>
                                     <Box sx={{fontWeight: '400', fontSize: 10, marginLeft: '2px'}}>Pinned</Box>
-                                    <Box sx={{fontWeight: '400', fontSize: 10, marginLeft: '2px'}}>
-                                        {isAdding && 'Loading'}
-                                    </Box>
                                 </Stack>
                             </Typography>
                         </Box>
                         <Grid container>
                             <List sx={{width: '100%', marginTop: '-10px'}}>
-                                {/* {
-                                    [1, 2, 3, 6, 6, 6, 6, 6, 4, 5, 6].map((item, index, array) => (
-                                        <Box component={'span'} key={item} sx={{'&:hover': {cursor: 'default'}}}>
-                                            <EntriesListItem item={item} heading={''} description={''} index={index} arrayLength={array.length}/>
-                                        </Box>
-                                    ))
-                                }*/}
                                 {
-                                    entries.map((entry, index, array) => (
-                                        <Box component={'span'} key={entry.id} sx={{'&:hover': {cursor: 'default'}}}>
-                                            <EntriesListItem
-                                                title={entry.title}
-                                                description={entry.description}
-                                                index={index}
-                                                arrayLength={array.length}
-                                                isPinned={entry.isPinned}
+                                    (pinned.map((entry, index, array) => {
+                                        return (
+                                            <Box component={'span'} key={entry.id}
+                                                 sx={{'&:hover': {cursor: 'default'}}}>
+                                                <EntriesListItem
+                                                    id={entry.id}
+                                                    title={entry.title}
+                                                    description={entry.description}
+                                                    index={index}
+                                                    arrayLength={array.length}
+                                                    isPinnedBorderVisible={array.length === index + 1}
+                                                    diaryID={entry.diaryID}
+                                                    isPinned={false}
+                                                />
+                                            </Box>
+                                        )
 
-                                            />
-                                        </Box>
-                                    ))
+                                    }))
+                                }
+                                {
+                                    entries.map((entry, index, array) => {
+                                        if (!entry.isPinned) {
+                                            return (
+                                                <Box component={'span'} key={entry.id}
+                                                     sx={{'&:hover': {cursor: 'default'}}}>
+                                                    <EntriesListItem
+                                                        id={entry.id}
+                                                        title={entry.title}
+                                                        description={entry.description}
+                                                        index={index}
+                                                        arrayLength={array.length}
+                                                        diaryID={entry.diaryID}
+                                                        isPinned={false}
+                                                    />
+                                                </Box>
+                                            )
+                                        } else {
+                                            return null
+                                        }
+                                    })
                                 }
                             </List>
                         </Grid>

@@ -64,6 +64,7 @@ const Diaries = () => {
                                             id={item.id}
                                             title={item.title}
                                             entries={item.entries}
+                                            hasPinnedEntries={false}
                                             selected={currentDiary === item.id}
                                         />
                                     </>

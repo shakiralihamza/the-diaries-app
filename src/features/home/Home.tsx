@@ -20,9 +20,10 @@ function Home() {
                             path="/"
                         >
                             <Route path={'/diary/:diaryId'} element={<Entries/>}/>
+
                             <Route index element={(
-                                <Typography ml={1} sx={{color: '#98a3b0', pt: '7px'}}  fontSize={11}>
-                                    { 'No entries to show'}
+                                <Typography ml={1} sx={{color: '#98a3b0', pt: '7px'}} fontSize={11}>
+                                    {'No entries to show'}
                                 </Typography>
                             )}/>
                         </Route>

@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Entry } from '../../interfaces/entry.interface';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Entry} from '../../interfaces/entry.interface';
 
 const entries = createSlice({
     name: 'entries',
     initialState: [] as Entry[],
     reducers: {
-        setEntries(state, { payload }: PayloadAction<Entry[] | null>) {
+        setEntries(state, {payload}: PayloadAction<Entry[] | null>) {
             return (state = payload != null ? payload : []);
 
         },
@@ -16,8 +16,14 @@ const entries = createSlice({
                 state.splice(index, 1, payload);
             }
         },
+        // pinEntry: (state, {payload}: PayloadAction<string | undefined>) => {
+        //     const index = state.findIndex((e) => e.id === payload);
+        //     if (index !== -1) {
+        //         state[index].isPinned = !state[index].isPinned
+        //     }
+        // }
     },
 });
 
-export const { setEntries, updateEntry } = entries.actions;
+export const {setEntries, updateEntry} = entries.actions;
 export default entries.reducer;

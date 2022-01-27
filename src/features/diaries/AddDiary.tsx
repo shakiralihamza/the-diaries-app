@@ -59,12 +59,11 @@ const AddDiary = () => {
             title,
             type,
             userId,
-            entries: 0
+            entries: 0,
+            hasPinnedEntries: false
         });
         if (diary) {
             dispatch(addDiary([diary] as Diary[]));
-            // dispatch(addDiary([diary] as Diary[]));
-            // dispatch(setUser(_user));
             setLoading(false);
             dispatch(closeMenu());
             dispatch(setCurrentDiary(diary.id))

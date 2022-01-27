@@ -6,25 +6,23 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useAppDispatch} from "../../app/hooks";
-import {closeEntryMenu, setAdded, setAdding} from "./addEntrySlice";
+import {closeEntryMenu} from "./addEntrySlice";
 import {useState} from "react";
 import http from "../../services/api";
 import {Diary} from "../../interfaces/diary.interface";
 import {Entry} from "../../interfaces/entry.interface";
 import {useParams} from "react-router-dom";
+import {updateNoOfEntries} from "../diaries/diariesSlice";
 
 export default function AddEntry() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const dispatch = useAppDispatch();
     const {diaryId} = useParams();
-    // const entries = useAppSelector(state => state.entries);
     const handleClose = () => {
         dispatch(closeEntryMenu());
     };
     const handleAddEntry = async () => {
-        // setLoading(true)
-        dispatch(setAdding());
         http
             .post<Entry, { diary: Diary; entry: Entry }>(
                 `/diaries/entry/${diaryId}`,
@@ -35,9 +33,8 @@ export default function AddEntry() {
             )
             .then((data) => {
                 if (data != null) {
-                    // const {diary, entry: _entry} = data;
+                    dispatch(updateNoOfEntries({diaryID: diaryId, type:'INC'}))
                     dispatch(closeEntryMenu());
-                    dispatch(setAdded());
                 }
             });
     }
@@ -70,7 +67,6 @@ export default function AddEntry() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={handleAddEntry}>Add</Button>
                 </DialogActions>
             </Dialog>
