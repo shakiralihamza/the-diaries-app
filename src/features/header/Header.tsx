@@ -7,9 +7,12 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {openEntryMenu} from "../entries/addEntrySlice";
-import {updateEntry} from "../entries/entriesSlice";
+import {deleteEntry, updateEntry} from "../entries/entriesSlice";
 import http from "../../services/api";
 import {Entry} from "../../interfaces/entry.interface";
+import {updateNoOfEntries} from "../diaries/diariesSlice";
+import {setCurrentEntry} from "../entries/currentEntrySlice";
+import {setViewEntry} from "../viewEntry/viewEntrySlice";
 
 type TheButtonProps = {
     icon: JSX.Element,
@@ -38,7 +41,7 @@ export const TheHeaderButton: FC<TheButtonProps> = ({icon, selected, tooltipText
                     }
                 }}
             >
-                {!loading?icon:<CircularProgress disableShrink sx={{
+                {!loading ? icon : <CircularProgress disableShrink sx={{
                     ...(!selected && {color: 'white'}),
                     ...(selected && {color: 'black'}),
                 }} size={10}/>}
@@ -53,29 +56,39 @@ function Header() {
     const currentDiaryId = useAppSelector(state => state.currentDiary.currentDiary)
     const currentEntryId = useAppSelector(state => state.currentEntry.currentEntry)
     const entries = useAppSelector(state => state.entries)
-    const [state, setState] = useState(false);
+    const [pinning, setPinning] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     useEffect(() => {
         if (currentEntryId) {
             const currentEntry = entries.filter((entry) => entry.id === currentEntryId)[0];
             setIsPinned(currentEntry.isPinned)
         }
-    }, [currentEntryId, entries, state])
+    }, [currentEntryId, entries])
     const handlePinEntry = () => {
-        setState(true)
+        setPinning(true);
         http
             .put<Entry, Entry>(`diaries/updateEntryPin/${currentEntryId}`, entries[Number(currentEntryId!)])
             .then((_entry) => {
                 if (_entry != null) {
-                    // dispatch(setCurrentlyEditing(_entry));
-                    // dispatch(updateEntry(_entry));
-                    // alert(JSON.stringify(_entry))
-                    // setState(!state);
                     dispatch(updateEntry(_entry))
-                    setState(false)
-                    // alert('state: '+ state)
+                    setPinning(false)
                 }
             });
     }
+
+    const handleDeleteEntry = () => {
+        setDeleting(true);
+        http.delete(`diaries/entry/${currentEntryId}`)
+            .then(() => {
+                dispatch(updateNoOfEntries({diaryID: currentDiaryId, type: 'DEC'}))
+                dispatch(setCurrentEntry(undefined))
+                dispatch(deleteEntry(currentEntryId!))
+                dispatch(setViewEntry({}))
+                setDeleting(false)
+            })
+            .catch((err) => alert(err))
+    }
+
     return (
         <Grid
             container
@@ -117,17 +130,17 @@ function Header() {
                             <Box component={'span'} onClick={handlePinEntry}>
                                 <TheHeaderButton icon={<PushPinOutlinedIcon sx={{...defaultIconStyles}}/>}
                                                  selected={isPinned}
-                                                 loading={state}
-                                                 tooltipText={'Pin'}/>
+                                                 loading={pinning}
+                                                 tooltipText={isPinned?'Unpin':'Pin'}/>
                             </Box>
                             <Box component={'span'}>
                                 <TheHeaderButton icon={<EditOutlinedIcon sx={defaultIconStyles}/>} selected={false}
                                                  loading={false}
                                                  tooltipText={'Edit'}/>
                             </Box>
-                            <Box component={'span'}>
+                            <Box component={'span'} onClick={handleDeleteEntry}>
                                 <TheHeaderButton icon={<DeleteOutlineOutlinedIcon sx={defaultIconStyles}/>} selected={false}
-                                                 loading={false}
+                                                 loading={deleting}
                                                  tooltipText={'Delete'}/>
                             </Box>
                         </Stack>

@@ -6,5 +6,4 @@ export interface Diary {
     updatedAt?: string;
     userId?: string;
     entries: number;
-    hasPinnedEntries: boolean
 }

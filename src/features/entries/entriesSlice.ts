@@ -16,14 +16,14 @@ const entries = createSlice({
                 state.splice(index, 1, payload);
             }
         },
-        // pinEntry: (state, {payload}: PayloadAction<string | undefined>) => {
-        //     const index = state.findIndex((e) => e.id === payload);
-        //     if (index !== -1) {
-        //         state[index].isPinned = !state[index].isPinned
-        //     }
-        // }
+        deleteEntry(state, { payload }: PayloadAction<string>) {
+            const index = state.findIndex((e) => e.id === payload);
+            if (index !== -1) {
+                state.splice(index, 1);
+            }
+        }
     },
 });
 
-export const {setEntries, updateEntry} = entries.actions;
+export const {setEntries, updateEntry, deleteEntry} = entries.actions;
 export default entries.reducer;

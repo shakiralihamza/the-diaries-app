@@ -126,3 +126,11 @@ export const updateEntry = (schema: any, req: Request): Entry | Response => {
         return handleErrors(error, 'Failed to update entry.');
     }
 };
+export const deleteEntry = (schema: any, req: Request): Response => {
+    try {
+        const id = req.params.id
+        return schema.entries.find(id).destroy();
+    } catch (error) {
+        return handleErrors(error, 'Failed to update entry.');
+    }
+};
