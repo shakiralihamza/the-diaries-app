@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "miragejs": "^0.1.43"
+    "miragejs": "^0.1.43",
+    "serve": "^13.0.2"
   }
 }
