@@ -1,12 +1,41 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from "../header/Header";
 import {Grid, Typography} from "@mui/material";
 import Diaries from "../diaries/Diaries";
 import Entries from "../entries/Entries";
 import ViewEntry from "../viewEntry/ViewEntry";
 import {Routes, Route} from "react-router-dom";
+import http from "../../services/api";
+import {Diary} from "../../interfaces/diary.interface";
+import {addDiary} from "../diaries/diariesSlice";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {setEntries} from "../entries/entriesSlice";
+import {Entry} from "../../interfaces/entry.interface";
+import {setViewEntry} from "../viewEntry/viewEntrySlice";
+import {setCurrentEntry} from "../entries/currentEntrySlice";
+import {setCurrentDiary} from "../diaries/currentDiarySlice";
 
 function Home() {
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.user)
+    useEffect(() => {
+        if (user) {
+            http.get<null, { diaries: Diary[] }>(`diaries/${user.id}`)
+                .then(({diaries: _diaries}) => {
+                    if (_diaries) {
+                        dispatch(addDiary(_diaries));
+                    }
+                })
+            return ()=> {
+                dispatch(addDiary([] as Diary[]));
+                dispatch(setEntries([] as Entry[]));
+                dispatch(setViewEntry({}));
+                dispatch(setCurrentEntry(undefined))
+                dispatch(setCurrentDiary(undefined))
+            }
+        }
+
+    }, [dispatch, user]);
     return (
         <>
             <Header/>

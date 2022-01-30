@@ -10,10 +10,12 @@ const diaries = createSlice({
     initialState: [] as Diary[],
     reducers: {
         addDiary(state, {payload}: PayloadAction<Diary[]>) {
-            const diariesToSave = payload.filter((diary) => {
+            /*const diariesToSave = payload.filter((diary) => {
                 return state.findIndex((item) => item.id === diary.id) === -1;
             });
-            state.push(...diariesToSave);
+            return state = diariesToSave;*/
+            return (state = payload != null ? payload : []);
+
         },
         /*updateDiary(state, {payload}: PayloadAction<Diary>) {
             const {id} = payload;

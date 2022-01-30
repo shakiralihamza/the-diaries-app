@@ -13,6 +13,8 @@ import {Entry} from "../../interfaces/entry.interface";
 import {updateNoOfEntries} from "../diaries/diariesSlice";
 import {setCurrentEntry} from "../entries/currentEntrySlice";
 import {setViewEntry} from "../viewEntry/viewEntrySlice";
+import {clearToken, setAuthState} from "../auth/authSlice";
+import {setUser} from "../auth/userSlice";
 
 type TheButtonProps = {
     icon: JSX.Element,
@@ -58,6 +60,7 @@ function Header() {
     const entries = useAppSelector(state => state.entries)
     const [pinning, setPinning] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [loggingOut, setLoggingOut] = useState(false);
     useEffect(() => {
         if (currentEntryId) {
             const currentEntry = entries.filter((entry) => entry.id === currentEntryId)[0];
@@ -89,6 +92,13 @@ function Header() {
             .catch((err) => alert(err))
     }
 
+    const handleLogout = () => {
+        setLoggingOut(true);
+        dispatch(clearToken());
+        dispatch(setUser(null));
+        dispatch(setAuthState(false));
+    };
+
     return (
         <Grid
             container
@@ -118,39 +128,35 @@ function Header() {
                 </Stack>
             </Grid>
             <Grid item xs>
-                {
-                    currentEntryId && (
-                        <Stack direction={'row'} spacing={1}
-                               sx={{
-                                   padding: '0 5px',
-                                   mt: '-1px',
-                               }}
-                        >
-                            {/*<Box component={'span'} onClick={() => dispatch(pinEntry(currentEntryId))}>*/}
-                            <Box component={'span'} onClick={handlePinEntry}>
-                                <TheHeaderButton icon={<PushPinOutlinedIcon sx={{...defaultIconStyles}}/>}
-                                                 selected={isPinned}
-                                                 loading={pinning}
-                                                 tooltipText={isPinned?'Unpin':'Pin'}/>
-                            </Box>
-                            <Box component={'span'}>
-                                <TheHeaderButton icon={<EditOutlinedIcon sx={defaultIconStyles}/>} selected={false}
-                                                 loading={false}
-                                                 tooltipText={'Edit'}/>
-                            </Box>
-                            <Box component={'span'} onClick={handleDeleteEntry}>
-                                <TheHeaderButton icon={<DeleteOutlineOutlinedIcon sx={defaultIconStyles}/>} selected={false}
-                                                 loading={deleting}
-                                                 tooltipText={'Delete'}/>
-                            </Box>
-                        </Stack>
-                    )
-                }
+                <Stack direction={'row'} spacing={1}
+                       sx={{
+                           padding: '0 5px',
+                           mt: '-1px',
+                           ...(!currentEntryId && {visibility: 'hidden'})
+                       }}
+                >
+                    <Box component={'span'} onClick={handlePinEntry}>
+                        <TheHeaderButton icon={<PushPinOutlinedIcon sx={{...defaultIconStyles}}/>}
+                                         selected={isPinned}
+                                         loading={pinning}
+                                         tooltipText={isPinned ? 'Unpin' : 'Pin'}/>
+                    </Box>
+                    <Box component={'span'}>
+                        <TheHeaderButton icon={<EditOutlinedIcon sx={defaultIconStyles}/>} selected={false}
+                                         loading={false}
+                                         tooltipText={'Edit'}/>
+                    </Box>
+                    <Box component={'span'} onClick={handleDeleteEntry}>
+                        <TheHeaderButton icon={<DeleteOutlineOutlinedIcon sx={defaultIconStyles}/>} selected={false}
+                                         loading={deleting}
+                                         tooltipText={'Delete'}/>
+                    </Box>
+                </Stack>
             </Grid>
             <Grid item>
-                <Stack direction={'row'} spacing={1} sx={{padding: '0 5px'}}>
+                <Stack direction={'row'} spacing={1} sx={{padding: '0 5px'}} onClick={handleLogout}>
                     <TheHeaderButton icon={<LogoutIcon sx={defaultIconStyles}/>} selected={false}
-                                     loading={false}
+                                     loading={loggingOut}
                                      tooltipText={'Sign Out'}/>
                 </Stack>
             </Grid>
