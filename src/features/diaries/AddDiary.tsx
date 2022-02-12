@@ -7,7 +7,7 @@ import {
     Paper,
     styled,
     ToggleButton,
-    ToggleButtonGroup,
+    ToggleButtonGroup, Tooltip, Zoom,
 } from "@mui/material";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import {addDiary} from "./diariesSlice";
@@ -16,7 +16,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import http from "../../services/api";
 import {Diary} from "../../interfaces/diary.interface";
 import {closeMenu} from "./addDiarySlice";
-// import {useNavigate} from "react-router-dom";
+
 
 const AddDiaryInput = styled(InputBase)(() => ({
     '& .MuiInputBase-input': {
@@ -105,10 +105,14 @@ const AddDiary = () => {
                     sx={{margin: '6px 5px',}}
                 >
                     <ToggleButton value="private" color={"primary"} sx={{padding: '0 5px'}} disableRipple>
-                        <LockIcon sx={{fontSize: 16}}/>
+                        <Tooltip TransitionComponent={Zoom} title={'Private'}>
+                            <LockIcon sx={{fontSize: 16}}/>
+                        </Tooltip>
                     </ToggleButton>
                     <ToggleButton value="public" color={'primary'} sx={{padding: '0 5px'}} disableRipple>
-                        <PublicIcon sx={{fontSize: 16}}/>
+                        <Tooltip TransitionComponent={Zoom} title={'Public'}>
+                            <PublicIcon sx={{fontSize: 16}}/>
+                        </Tooltip>
                     </ToggleButton>
                 </ToggleButtonGroup>
                 <IconButton size={'small'} onClick={handleAddDiary}>
