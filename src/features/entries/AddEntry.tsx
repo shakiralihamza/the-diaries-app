@@ -33,7 +33,7 @@ export default function AddEntry() {
             )
             .then((data) => {
                 if (data != null) {
-                    dispatch(updateNoOfEntries({diaryID: diaryId, type:'INC'}))
+                    dispatch(updateNoOfEntries({diaryID: diaryId, type: 'INC'}))
                     dispatch(closeEntryMenu());
                 }
             });

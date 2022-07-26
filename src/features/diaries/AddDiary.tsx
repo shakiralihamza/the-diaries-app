@@ -16,6 +16,8 @@ import PublicIcon from '@mui/icons-material/Public';
 import http from "../../services/api";
 import {Diary} from "../../interfaces/diary.interface";
 import {closeMenu} from "./addDiarySlice";
+import {setCurrentDiary} from "./currentDiarySlice";
+import {useNavigate} from "react-router-dom";
 
 
 const AddDiaryInput = styled(InputBase)(() => ({
@@ -43,15 +45,18 @@ type DiaryType = 'private' | 'public';
 const AddDiary = () => {
     const [title, setTitle] = useState<string>('');
     const [type, setType] = useState<DiaryType>('private');
-    const handleDiaryType = (event: any, val: DiaryType) => {
-        if (val !== null) {
-            setType(val)
-        }
-    }
+
     const dispatch = useAppDispatch();
     const userId = useAppSelector(state => state.user?.id)
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); //disable button while processing request
+    const navigate = useNavigate();
+
     // const navigate = useNavigate();
+    const handleDiaryType = (event: any, val: DiaryType) => {
+        if (val !== null) {
+            setType(() => val)
+        }
+    }
     const handleAddDiary = async () => {
         setLoading(true)
         const {diaries} = await http.post<Partial<Diary>, any>('/diaries/', {
@@ -61,17 +66,26 @@ const AddDiary = () => {
             entries: 0
         });
         if (diaries) {
+            const latestDiaryID = diaries[diaries.length - 1].id;
             dispatch(addDiary(diaries));
             setLoading(false);
             dispatch(closeMenu());
-            // dispatch(setCurrentDiary(diary.id))
-            // navigate(`/diary/${diary.id}`)
-            // alert(JSON.stringify(diaries))
+            dispatch(setCurrentDiary(latestDiaryID))
+            navigate(`/diary/${latestDiaryID}`)
+            // alert(JSON.stringify(latestDiary))
         }
     }
+
+    //press enter to add diary
     const handleKeyPress = (e: any) => {
         if (e.key === 'Enter') {
             handleAddDiary();
+        }
+    }
+    //press esc to close menu
+    const handleKeyUp = (e: any) => {
+        if (e.keyCode === 27) {
+            dispatch(closeMenu());
         }
     }
     return (
@@ -93,9 +107,11 @@ const AddDiary = () => {
             >
                 <AddDiaryInput
                     autoFocus
+                    disabled={loading}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     onKeyPress={handleKeyPress}
+                    onKeyUp={handleKeyUp}
                 />
                 <ToggleButtonGroup
                     value={type}

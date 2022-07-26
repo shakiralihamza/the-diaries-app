@@ -6,7 +6,8 @@ import Divider from "@mui/material/Divider";
 import {Entry} from "../../interfaces/entry.interface";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {setViewEntry} from "../viewEntry/viewEntrySlice";
-import {setCurrentEntry} from "./currentEntrySlice";
+import {setCurrentEntry, setCurrentEntryData} from "./currentEntrySlice";
+import dayjs from "dayjs";
 
 interface ListItemProps extends Entry {
     index: number,
@@ -20,11 +21,14 @@ const EntriesListItem: FC<ListItemProps> = ({
                                                 isPinnedBorderVisible,
                                                 description,
                                                 index,
-                                                arrayLength
+                                                arrayLength,
+                                                updatedAt
                                             }) => {
     const dispatch = useAppDispatch();
     const currentEntry = useAppSelector(state => state.currentEntry.currentEntry);
     const selected = id === currentEntry
+    //format date
+    const date = dayjs(updatedAt).format('MMM DD, YYYY')
     return (
         <>
             <ListItem alignItems="flex-start" tabIndex={0}
@@ -37,14 +41,15 @@ const EntriesListItem: FC<ListItemProps> = ({
                       }}
                       onClick={() => {
                           dispatch(setCurrentEntry(id))
-                          dispatch(setViewEntry({title, description}))
+                          dispatch(setViewEntry({title, description, updatedAt}))
+                          dispatch(setCurrentEntryData({title, description, updatedAt}))
                       }}
             >
                 <ListItemText
                     sx={{marginLeft: '20px'}}
                     primary={
                         <Typography
-                            sx={{fontWeight: '500', fontSize: '13px', color: '#e0dde0'}}
+                            sx={{fontWeight: '500', fontSize: '15px', color: '#e0dde0'}}
                         >
                             {title}
                         </Typography>
@@ -56,7 +61,7 @@ const EntriesListItem: FC<ListItemProps> = ({
                                 component={'div'}
                                 sx={{
                                     color: '#878588',
-                                    fontSize: '13px',
+                                    fontSize: '11px',
                                     textOverflow: 'ellipsis',
                                     overflow: 'hidden',
                                     whiteSpace: 'nowrap',
@@ -64,7 +69,16 @@ const EntriesListItem: FC<ListItemProps> = ({
                                     marginRight: '15px'
                                 }}
                             >
-                                {description}
+                                {
+                                    <>
+                                        <Box component={'span'} sx={{color: 'text.primary'}}>
+                                            {date} &nbsp;&nbsp;
+                                        </Box>
+                                        <Box component={'span'} sx={{color: 'text.main'}}>
+                                            {description}
+                                        </Box>
+                                    </>
+                                }
                             </Box>
                         </>
                     }

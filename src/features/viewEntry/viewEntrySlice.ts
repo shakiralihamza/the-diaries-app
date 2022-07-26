@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type InitialState = {
     title?: string,
     description?: string
+    updatedAt?: string
 }
 const initialState: InitialState = {}
 const viewEntry = createSlice({

@@ -38,11 +38,3 @@ export const signup = (schema: any, req: Request): AuthResponse | Response => {
         token,
     };
 };
-/*
-export const logout = (schema: any, req: Request): Response => {
-    const {username} = JSON.parse(req.requestBody);
-    const user = schema.users.findBy({username});
-
-    return user.destroy();
-
-};*/

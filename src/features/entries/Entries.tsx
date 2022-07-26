@@ -12,11 +12,13 @@ import dayjs from "dayjs";
 import {Entry} from "../../interfaces/entry.interface";
 import {setEntries} from "./entriesSlice";
 
-function Entries() {
+const Entries = () => {
     const {diaryId} = useParams();
     const dispatch = useAppDispatch();
     const entries = useAppSelector(state => state.entries)
     const open = useAppSelector(state => state.addEntry.menuOpen)
+    const edit = useAppSelector(state => state.editEntry.menuOpen)
+
     const navigate = useNavigate();
     const currentDiary = useAppSelector(state => state.currentDiary.currentDiary)
     const pinned = entries.filter((entry) => entry.isPinned)
@@ -35,7 +37,7 @@ function Entries() {
                     }
                 })
         }
-    }, [currentDiary, diaryId, dispatch, navigate, open]);
+    }, [currentDiary, diaryId, dispatch, navigate, open, edit])
     return (
         <>
 
@@ -79,7 +81,9 @@ function Entries() {
                                             <Box component={'span'} key={entry.id}
                                                  sx={{'&:hover': {cursor: 'default'}}}>
                                                 <EntriesListItem
+                                                    key={entry.id}
                                                     id={entry.id}
+                                                    updatedAt={entry.updatedAt}
                                                     title={entry.title}
                                                     description={entry.description}
                                                     index={index}
@@ -100,7 +104,9 @@ function Entries() {
                                                 <Box component={'span'} key={entry.id}
                                                      sx={{'&:hover': {cursor: 'default'}}}>
                                                     <EntriesListItem
+                                                        key={entry.id}
                                                         id={entry.id}
+                                                        updatedAt={entry.updatedAt}
                                                         title={entry.title}
                                                         description={entry.description}
                                                         index={index}
@@ -123,6 +129,6 @@ function Entries() {
             {open && <AddEntry/>}
         </>
     );
-}
+};
 
 export default Entries;

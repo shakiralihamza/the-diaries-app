@@ -40,8 +40,8 @@ const DiariesListItem: FC<DiariesListItemProps> = ({title, selected, entries, id
                 }}
             >
                 <Typography fontSize={13} fontWeight={500}>
-                    <Grid container justifyContent={'space-between'} alignItems={'center'}>
-                        <Grid item sx={{color: '#f7fafc'}}>
+                    <Grid container justifyContent={'space-between'} alignItems={'center'} spacing={1}>
+                        <Grid item xs sx={{color: '#f7fafc'}}>
                             {title}
                         </Grid>
                         <Grid item className={'quantity'} sx={{

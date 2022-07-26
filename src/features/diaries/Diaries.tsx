@@ -8,13 +8,11 @@ import {openMenu} from "./addDiarySlice";
 import AddDiary from "./AddDiary";
 import {Diary} from "../../interfaces/diary.interface";
 
-
 const Diaries = () => {
     const dispatch = useAppDispatch();
     const open = useAppSelector((state) => state.addDiary.menuOpen);
     const diaries = useAppSelector((state) => state.diaries);
-    const currentDiary = useAppSelector(state => state.currentDiary.currentDiary);
-
+    const currentDiary = useAppSelector((state) => state.currentDiary.currentDiary);
 
     return (
         <>
@@ -54,7 +52,6 @@ const Diaries = () => {
                         </Grid>
                     </Scrollbars>
                 </Grid>
-
                 <Grid item>
                     <Typography sx={{color: '#98a3b0'}} ml={2}>
                         <Stack

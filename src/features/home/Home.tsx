@@ -14,13 +14,16 @@ import {Entry} from "../../interfaces/entry.interface";
 import {setViewEntry} from "../viewEntry/viewEntrySlice";
 import {setCurrentEntry} from "../entries/currentEntrySlice";
 import {setCurrentDiary} from "../diaries/currentDiarySlice";
+import EditEntry from "../entries/EditEntry";
+
 
 function Home() {
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.user)
+
     useEffect(() => {
-        if (user) {
-            http.get<null, { diaries: Diary[] }>(`diaries/${user.id}`)
+        // if (user) {
+            http.get<null, { diaries: Diary[] }>(`diaries/${user?.id}`)
                 .then(({diaries: _diaries}) => {
                     if (_diaries) {
                         dispatch(addDiary(_diaries));
@@ -33,17 +36,19 @@ function Home() {
                 dispatch(setCurrentEntry(undefined))
                 dispatch(setCurrentDiary(undefined))
             }
-        }
+        // }
 
     }, [dispatch, user]);
+    const edit = useAppSelector(state => state.editEntry.menuOpen)
+
     return (
         <>
             <Header/>
             <Grid container sx={{borderTop: '2px solid black'}}>
-                <Grid item sm={3} md={2} sx={{backgroundImage: 'linear-gradient(to bottom, #3f4e5d, #2a3643)'}}>
+                <Grid item xs={4} md={2} sx={{backgroundImage: 'linear-gradient(to bottom, #3f4e5d, #2a3643)'}}>
                     <Diaries/>
                 </Grid>
-                <Grid item sm={4} md={3} sx={{backgroundColor: '#252225', borderLeft: '2px solid black'}}>
+                <Grid item xs={4} md={3} sx={{backgroundColor: '#252225', borderLeft: '2px solid black'}}>
                     <Routes>
                         <Route
                             path="/"
@@ -56,13 +61,13 @@ function Home() {
                                 </Typography>
                             )}/>
                         </Route>
-
                     </Routes>
                 </Grid>
-                <Grid item sm={5} md={7} sx={{backgroundColor: '#252525', borderLeft: '2px solid black'}}>
+                <Grid item xs={4} md={7} sx={{backgroundColor: '#252525', borderLeft: '2px solid black'}}>
                     <ViewEntry/>
                 </Grid>
             </Grid>
+            {edit && <EditEntry/>}
         </>
     );
 }

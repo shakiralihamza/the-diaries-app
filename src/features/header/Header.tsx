@@ -15,6 +15,7 @@ import {setCurrentEntry} from "../entries/currentEntrySlice";
 import {setViewEntry} from "../viewEntry/viewEntrySlice";
 import {clearToken, setAuthState} from "../auth/authSlice";
 import {setUser} from "../auth/userSlice";
+import {openEditMenu} from "../entries/editEntrySlice";
 
 type TheButtonProps = {
     icon: JSX.Element,
@@ -109,8 +110,8 @@ function Header() {
             }}
             alignContent={'center'}
         >
-            <Grid item sm={3} md={2}/>
-            <Grid item sm={4} md={3}>
+            <Grid item xs={4} md={2}/>
+            <Grid item xs={4} md={3}>
                 <Stack direction={'row'} spacing={1}
                        sx={{
                            padding: '0 5px',
@@ -141,7 +142,7 @@ function Header() {
                                          loading={pinning}
                                          tooltipText={isPinned ? 'Unpin' : 'Pin'}/>
                     </Box>
-                    <Box component={'span'}>
+                    <Box component={'span'} onClick={() => dispatch(openEditMenu())}>
                         <TheHeaderButton icon={<EditOutlinedIcon sx={defaultIconStyles}/>} selected={false}
                                          loading={false}
                                          tooltipText={'Edit'}/>

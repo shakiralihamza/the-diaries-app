@@ -32,18 +32,15 @@ function Auth() {
         http
             .post<User, AuthResponse>(path, data)
             .then((res) => {
-                if (res) {
-                    const {user, token} = res;
-                    dispatch(saveToken(token));
-                    // alert(JSON.stringify(user))
-                    dispatch(setUser(user));
-                    dispatch(setAuthState(true));
-                }
+                const {user, token} = res;
+                dispatch(saveToken(token));
+                dispatch(setUser(user));
+                dispatch(setAuthState(true));
             })
             .catch((error) => {
                 console.log(error);
             })
-            .finally(()=>{
+            .finally(() => {
                 setLoading(false)
             })
     };
@@ -62,7 +59,7 @@ function Auth() {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    {isLogin?'Sign In':'Sign Up'}
+                    {isLogin ? 'Sign In' : 'Sign Up'}
                 </Typography>
                 <Box sx={{mt: 1}}>
                     <TextField
@@ -92,7 +89,7 @@ function Auth() {
                         margin="normal"
                         required
                         fullWidth
-                        sx={{...(isLogin&&{display:'none'})}}
+                        sx={{...(isLogin && {display: 'none'})}}
                         label="Email (optional)"
                         type="email"
                         value={email}
@@ -106,15 +103,20 @@ function Auth() {
                         sx={{mt: 3, mb: 2}}
                         onClick={handleSubmit}
                     >
-                        {isLogin?'Sign In':'Sign Up'}
+                        {isLogin ? 'Sign In' : 'Sign Up'}
                     </LoadingButton>
                     <Grid container>
                         <Grid item xs/>
                         <Grid item>
                             <Link
+                                sx={{
+                                    '&:hover': {
+                                        cursor: 'pointer',
+                                    }
+                                }}
                                 onClick={() => setIsLogin(!isLogin)}
                                 variant="body2">
-                                { isLogin?
+                                {isLogin ?
                                     "Don't have an account? Sign Up"
                                     :
                                     "Already have an account? Sign In"

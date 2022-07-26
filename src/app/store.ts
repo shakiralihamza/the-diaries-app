@@ -8,6 +8,7 @@ import currentDiarySlice from "../features/diaries/currentDiarySlice";
 import addEntrySlice from "../features/entries/addEntrySlice";
 import viewEntrySlice from "../features/viewEntry/viewEntrySlice";
 import currentEntrySlice from "../features/entries/currentEntrySlice";
+import editEntrySlice from "../features/entries/editEntrySlice";
 
 export const store = configureStore({
     reducer: {
@@ -20,7 +21,7 @@ export const store = configureStore({
         addEntry: addEntrySlice,
         viewEntry: viewEntrySlice,
         currentEntry: currentEntrySlice,
-
+        editEntry: editEntrySlice,
     },
 });
 

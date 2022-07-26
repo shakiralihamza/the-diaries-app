@@ -1,10 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
+type currentEntryDataType = {
+    title: string,
+    description: string,
+    updatedAt?: string,
+}
 type InitialState = {
-    currentEntry: string | undefined
+    currentEntry?: string
+    currentEntryData?: currentEntryDataType
 }
 const initialState: InitialState = {
-    currentEntry: undefined
+    currentEntry: undefined,
+    currentEntryData: undefined
 }
 const currentEntry = createSlice({
     name: 'currentEntry',
@@ -12,9 +19,12 @@ const currentEntry = createSlice({
     reducers: {
         setCurrentEntry(state, {payload}: PayloadAction<string | undefined>) {
             state.currentEntry = payload;
+        },
+        setCurrentEntryData(state, {payload}: PayloadAction<currentEntryDataType | undefined>) {
+            state.currentEntryData = payload;
         }
     },
 });
 
-export const {setCurrentEntry} = currentEntry.actions;
+export const {setCurrentEntry, setCurrentEntryData} = currentEntry.actions;
 export default currentEntry.reducer;

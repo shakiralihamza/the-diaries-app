@@ -31,11 +31,14 @@ export const addEntry = (
     req: Request
 ): { diary: Diary; entry: Entry } | Response => {
     try {
+        //generate unique string
+        const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         const diary = schema.diaries.find(req.params.id);
         const {title, description} = JSON.parse(req.requestBody) as Partial<Entry>;
         const now = dayjs().format();
         const entry = diary.createEntry({
             diaryID: req.params.id,
+            id,
             title,
             description,
             createdAt: now,
