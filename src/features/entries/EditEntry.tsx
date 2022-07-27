@@ -22,26 +22,10 @@ const EditEntry: React.FC = () => {
     const [saving, setSaving] = useState(false);
 
     const dispatch = useAppDispatch();
-    // const {diaryId} = useParams();
     const handleClose = () => {
         dispatch(closeEditMenu());
     };
 
-    /*const handleEditEntry = async () => {
-        http
-            .put<Entry, { diary: Diary; entry: Entry }>(
-                `/diaries/entry/${diaryId}`,
-                {
-                    title,
-                    description
-                }
-            )
-            .then((data) => {
-                if (data != null) {
-                    dispatch(closeEditMenu());
-                }
-            });
-    }*/
     const handleEditEntry = () => {
         setSaving(prevState => !prevState);
         http
@@ -68,7 +52,6 @@ const EditEntry: React.FC = () => {
             <Dialog open={true} onClose={handleClose}>
                 <DialogTitle>Edit Entry</DialogTitle>
                 <DialogContent>
-                    {currentEntry}
                     <TextField
                         autoFocus
                         onChange={(e) => setTitle(e.target.value)}
