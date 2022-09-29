@@ -18,6 +18,8 @@ import {Diary} from "../../interfaces/diary.interface";
 import {closeMenu} from "./addDiarySlice";
 import {setCurrentDiary} from "./currentDiarySlice";
 import {useNavigate} from "react-router-dom";
+import {setCurrentEntry} from "../entries/currentEntrySlice";
+import {setViewEntry} from "../viewEntry/viewEntrySlice";
 
 
 const AddDiaryInput = styled(InputBase)(() => ({
@@ -70,21 +72,20 @@ const AddDiary = () => {
             setLoading(false);
             dispatch(closeMenu());
             dispatch(setCurrentDiary(latestDiaryID))
+            dispatch(setCurrentEntry(undefined))
+            dispatch(setViewEntry({title: '', description: '', updatedAt: ''}))
             navigate(`/diary/${latestDiaryID}`)
         }
     }
 
-    //press enter to add diary
-    const handleKeyPress = (e: any) => {
-        if (e.key === 'Enter') {
-            handleAddDiary();
-        }
-    }
-
-    //press esc to close menu
     const handleKeyUp = (e: any) => {
-        if (e.keyCode === 27) {
+        //press esc to close menu
+        if (e.key === 'Escape') {
             dispatch(closeMenu());
+        }
+        //press enter to add diary
+        else if (e.key === 'Enter') {
+            handleAddDiary()
         }
     }
 
@@ -110,7 +111,6 @@ const AddDiary = () => {
                     disabled={loading}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    onKeyPress={handleKeyPress}
                     onKeyUp={handleKeyUp}
                 />
                 <ToggleButtonGroup
