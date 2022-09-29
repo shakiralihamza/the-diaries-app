@@ -37,7 +37,8 @@ const Entries = () => {
                     }
                 })
         }
-    }, [currentDiary, diaryId, dispatch, navigate, open, edit])
+    }, [currentDiary, diaryId, dispatch, navigate, open, edit]);
+
     return (
         <>
 

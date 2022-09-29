@@ -20,8 +20,8 @@ const EditEntry: React.FC = () => {
     const [description, setDescription] = useState(currentEntryData?.description);
     const entries = useAppSelector(state => state.entries)
     const [saving, setSaving] = useState(false);
-
     const dispatch = useAppDispatch();
+
     const handleClose = () => {
         dispatch(closeEditMenu());
     };
@@ -47,6 +47,7 @@ const EditEntry: React.FC = () => {
                 }
             });
     }
+
     return (
         <div>
             <Dialog open={true} onClose={handleClose}>

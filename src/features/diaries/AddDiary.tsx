@@ -51,7 +51,6 @@ const AddDiary = () => {
     const [loading, setLoading] = useState(false); //disable button while processing request
     const navigate = useNavigate();
 
-    // const navigate = useNavigate();
     const handleDiaryType = (event: any, val: DiaryType) => {
         if (val !== null) {
             setType(() => val)
@@ -72,7 +71,6 @@ const AddDiary = () => {
             dispatch(closeMenu());
             dispatch(setCurrentDiary(latestDiaryID))
             navigate(`/diary/${latestDiaryID}`)
-            // alert(JSON.stringify(latestDiary))
         }
     }
 
@@ -82,12 +80,14 @@ const AddDiary = () => {
             handleAddDiary();
         }
     }
+
     //press esc to close menu
     const handleKeyUp = (e: any) => {
         if (e.keyCode === 27) {
             dispatch(closeMenu());
         }
     }
+
     return (
         <Grid item xs={12}>
             <Paper

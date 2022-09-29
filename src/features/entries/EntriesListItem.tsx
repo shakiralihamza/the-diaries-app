@@ -27,8 +27,10 @@ const EntriesListItem: FC<ListItemProps> = ({
     const dispatch = useAppDispatch();
     const currentEntry = useAppSelector(state => state.currentEntry.currentEntry);
     const selected = id === currentEntry
+
     //format date
     const date = dayjs(updatedAt).format('MMM DD, YYYY')
+
     return (
         <>
             <ListItem alignItems="flex-start" tabIndex={0}

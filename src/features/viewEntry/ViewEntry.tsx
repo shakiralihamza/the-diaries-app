@@ -5,9 +5,11 @@ import dayjs from "dayjs";
 
 function ViewEntry() {
     const entry = useAppSelector(state => state.viewEntry)
+
     //format date with full month name
     const date = dayjs(entry.updatedAt).format('DD MMMM YYYY')
     const time = dayjs(entry.updatedAt).format('h:mm A')
+
     return (
         <Grid container direction={'column'} spacing={2}
               sx={{height: 'calc(100vh - 37px)', width: '100%', padding: '40px', pt: 1}}>

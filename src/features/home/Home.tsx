@@ -22,23 +22,21 @@ function Home() {
     const user = useAppSelector(state => state.user)
 
     useEffect(() => {
-        // if (user) {
-            http.get<null, { diaries: Diary[] }>(`diaries/${user?.id}`)
-                .then(({diaries: _diaries}) => {
-                    if (_diaries) {
-                        dispatch(addDiary(_diaries));
-                    }
-                })
-            return ()=> {
-                dispatch(addDiary([] as Diary[]));
-                dispatch(setEntries([] as Entry[]));
-                dispatch(setViewEntry({}));
-                dispatch(setCurrentEntry(undefined))
-                dispatch(setCurrentDiary(undefined))
-            }
-        // }
-
+        http.get<null, { diaries: Diary[] }>(`diaries/${user?.id}`)
+            .then(({diaries: _diaries}) => {
+                if (_diaries) {
+                    dispatch(addDiary(_diaries));
+                }
+            })
+        return () => {
+            dispatch(addDiary([] as Diary[]));
+            dispatch(setEntries([] as Entry[]));
+            dispatch(setViewEntry({}));
+            dispatch(setCurrentEntry(undefined))
+            dispatch(setCurrentDiary(undefined))
+        }
     }, [dispatch, user]);
+
     const edit = useAppSelector(state => state.editEntry.menuOpen)
 
     return (
@@ -50,11 +48,8 @@ function Home() {
                 </Grid>
                 <Grid item xs={4} md={3} sx={{backgroundColor: '#252225', borderLeft: '2px solid black'}}>
                     <Routes>
-                        <Route
-                            path="/"
-                        >
+                        <Route path="/">
                             <Route path={'/diary/:diaryId'} element={<Entries/>}/>
-
                             <Route index element={(
                                 <Typography ml={1} sx={{color: '#98a3b0', pt: '7px'}} fontSize={11}>
                                     {'No entries to show'}

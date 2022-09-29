@@ -31,8 +31,8 @@ export const setupServer = (env?: string): Server => {
 
         factories: {
             user: Factory.extend({
-                username: 'shakir',
-                password: 'shakir',
+                username: 'user',
+                password: 'pass',
                 email: 'test@email.com',
             }),
         },
@@ -45,7 +45,6 @@ export const setupServer = (env?: string): Server => {
             this.urlPrefix = 'https://diaries.app';
 
             this.post('/auth/login', user.login);
-            // this.post('/auth/logout', user.logout);
             this.post('/auth/signup', user.signup);
 
             this.post('/diaries/', diary.create);
